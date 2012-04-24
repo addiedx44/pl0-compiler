@@ -1,0 +1,6 @@
+bin/
+obj/
+*.exe
+*.swp
+*.zip
+*.o

@@ -1,0 +1,55 @@
+Token File (Raw)
+================
+29 2 x 17 2 y 18 21 2 x 20 2 y 4 3 56 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.x commasym identsym.y semicolonsym beginsym identsym.x becomessym identsym.y plussym numbersym.56 semicolonsym endsym periodsym
+
+No errors, program is syntactically correct.
+
+
+Generated Code (Raw)
+====================
+op  l  m
+--------
+ 6  0  3
+ 6  0  2
+ 3  0  4
+ 1  0 56
+ 2  0  2
+ 4  0  3
+ 2  0  0
+
+
+Generated Code (Pretty)
+=======================
+  # | op   l       m
+--------------------
+  0 | INC  0       3
+  1 | INC  0       2
+  2 | LOD  0       4
+  3 | LIT  0      56
+  4 | OPR  0 OPR_ADD
+  5 | STO  0       3
+  6 | OPR  0 OPR_RET
+
+
+Running in PM/0
+===============
+
+LINE   OP    L    M      PC   BP   SP    Stack
+--------------------------------------------------------------------
+Initial values:           0    1    0    (initialized to all zeroes)
+--------------------------------------------------------------------
+   0  INC    0    3       1    1    3    0  0  0
+   1  INC    0    2       2    1    5    0  0  0  0  0
+   2  LOD    0    4       3    1    6    0  0  0  0  0  0
+   3  LIT    0   56       4    1    7    0  0  0  0  0  0 56
+   4  OPR    0    2       5    1    6    0  0  0  0  0 56
+   5  STO    0    3       6    1    5    0  0  0 56  0
+   6  OPR    0    0       0    0    0   
+
+===============
+
+Finished without error.

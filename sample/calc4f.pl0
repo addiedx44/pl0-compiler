@@ -1,0 +1,79 @@
+/**
+ * Four-function calculator
+ *
+ * The first input is the value of X.
+ *
+ * The program then loops:
+ * 1. The next input is the operation: 1, 2, 3, or 4 for add, subtract,
+ *    multiply, or divide.
+ * 2. The final input is the value of Y.
+ * 3. Program outputs the value of op(x, y) and repeats until user inputs
+ *    something other than 1, 2, 3, or 4 for op.
+ *
+ * @author Adam Dunson
+ * @modified 2012-04-14
+ */
+const ADD = 1,SUB = 2,MULT = 3,DIV = 4;
+int op,x,y,done;
+
+procedure calculate;
+  procedure add;
+    begin
+      x := x + y;
+    end;
+
+  procedure sub;
+    begin
+      x := x - y;
+    end;
+
+  procedure mult;
+    int c;
+    begin
+      c := y - 1;
+      y := x; /* resets y argument for calling add */
+      while c > 0 do
+        begin
+          call add;
+          c := c - 1;
+        end;
+      /* old method: x := x * y; */
+    end;
+
+  procedure div;
+    begin
+      /* check for divide-by-zero errors */
+      if y <> 0 then
+        begin
+          x := x / y;
+        end
+      else done := 1;
+    end;
+
+  begin
+    if op = ADD then call add
+    else if op = SUB then call sub
+    else if op = MULT then call mult
+    else if op = DIV then call div
+    else done := 1;
+
+    if done = 0 then out x;
+  end;
+
+begin
+  done := 0;
+  in x;
+
+  while done = 0 do
+    begin
+      in op;
+      if op < 1 then done := 1
+      else if op > 4 then done := 1;
+
+      if done = 0 then
+        begin
+          in y;
+          call calculate;
+        end;
+    end;
+end.

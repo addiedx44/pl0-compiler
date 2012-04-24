@@ -1,0 +1,8 @@
+/**
+ * Simple program, HW4 example 1
+ */
+int x, y;
+begin
+  x := y + 56;
+  out x;
+end.

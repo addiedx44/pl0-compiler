@@ -1,0 +1,428 @@
+Input File
+==========
+const A := 1;
+out A.
+
+Token File (Raw)
+================
+28 2 90 20 3 1 18 31 2 90 19
+
+Token File (Symbolic)
+=====================
+constsym identsym.90 becomessym numbersym.1 semicolonsym outsym identsym.90
+periodsym
+
+Error number 1, Use = instead of :=.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+const A = ;
+out A.
+
+Token File (Raw)
+================
+28 2 90 9 18 31 2 90 19
+
+Token File (Symbolic)
+=====================
+constsym identsym.90 eqsym semicolonsym outsym identsym.90 periodsym
+
+Error number 2, = must be followed by a number.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+const A 1;
+out A.
+
+Token File (Raw)
+================
+28 2 90 3 1 18 31 2 90 19
+
+Token File (Symbolic)
+=====================
+constsym identsym.90 numbersym.1 semicolonsym outsym identsym.90 periodsym
+
+Error number 3, Identifier must be followed by =.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+const = 1;
+int foo;
+begin
+	foo := 2;
+	out foo;
+end.
+
+Token File (Raw)
+================
+28 9 3 1 18 29 2 39 18 21 2 39 20 3 2 18 31 2 39 18 22 19
+
+Token File (Symbolic)
+=====================
+constsym eqsym numbersym.1 semicolonsym intsym identsym.39 semicolonsym
+beginsym identsym.39 becomessym numbersym.2 semicolonsym outsym identsym.39
+semicolonsym endsym periodsym
+
+Error number 4, const, int, procedure must be followed by identifier.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo, bar baz;
+begin
+	foo := 1;
+	bar := foo + 1;
+	baz := bar + 1;
+end.
+
+Token File (Raw)
+================
+29 2 39 17 2 36 2 60 18 21 2 39 20 3 1 18 2 36 20 2 39 4 3 1 18 2 60 20 2 36 4
+3 1 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 commasym identsym.36 identsym.60 semicolonsym beginsym
+identsym.39 becomessym numbersym.1 semicolonsym identsym.36 becomessym
+identsym.39 plussym numbersym.1 semicolonsym identsym.60 becomessym identsym.36
+plussym numbersym.1 semicolonsym endsym periodsym
+
+Error number 5, Semicolon or comma missing.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Skipping error number 6 because I don't know?
+
+Skipping error number 7 because (as far as I can tell) it will never be thrown
+since statement can be the empty string.
+
+Skipping error number 8 because we already check for this with error number 9
+(Period expected).
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 1;
+	out foo;
+end
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 1 18 31 2 39 18 22
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.1
+semicolonsym outsym identsym.39 semicolonsym endsym
+
+Error number 9, Period expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo, bar;
+begin
+	foo := 1
+	bar := 2
+end.
+
+Token File (Raw)
+================
+29 2 39 17 2 36 18 21 2 39 20 3 1 2 36 20 3 2 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 commasym identsym.36 semicolonsym beginsym identsym.39
+becomessym numbersym.1 identsym.36 becomessym numbersym.2 endsym periodsym
+
+Error number 10, Semicolon between statements missing.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 1 + bar;
+	out foo;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 1 4 2 36 18 31 2 39 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.1
+plussym identsym.36 semicolonsym outsym identsym.39 semicolonsym endsym
+periodsym
+
+Error number 11, Undeclared identifier.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+const A = 1;
+begin
+	A := 2;
+end.
+
+Token File (Raw)
+================
+28 2 90 9 3 1 18 21 2 90 20 3 2 18 22 19
+
+Token File (Symbolic)
+=====================
+constsym identsym.90 eqsym numbersym.1 semicolonsym beginsym identsym.90
+becomessym numbersym.2 semicolonsym endsym periodsym
+
+Error number 12, Assignment to constant or procedure is not allowed.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 semicolonsym endsym
+periodsym
+
+Error number 13, Assignment operator expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+begin
+	call 1;
+end.
+
+Token File (Raw)
+================
+21 27 3 1 18 22 19
+
+Token File (Symbolic)
+=====================
+beginsym callsym numbersym.1 semicolonsym endsym periodsym
+
+Error number 14, call must be followed by an identifier.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int a;
+begin
+	call a;
+end.
+
+Token File (Raw)
+================
+29 2 a 18 21 27 2 a 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.a semicolonsym beginsym callsym identsym.a semicolonsym endsym
+periodsym
+
+Error number 15, Call of a constant or variable is meaningless.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo, bar;
+begin
+	foo := 1;
+	bar := 2;
+
+	if foo < bar
+	out foo;
+end.
+
+Token File (Raw)
+================
+29 2 39 17 2 36 18 21 2 39 20 3 1 18 2 36 20 3 2 18 23 2 39 11 2 36 31 2 39 18
+22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 commasym identsym.36 semicolonsym beginsym identsym.39
+becomessym numbersym.1 semicolonsym identsym.36 becomessym numbersym.2
+semicolonsym ifsym identsym.39 lessym identsym.36 outsym identsym.39
+semicolonsym endsym periodsym
+
+Error number 16, then expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo, bar;
+begin
+	foo := 1;
+	bar := 2
+.
+
+Token File (Raw)
+================
+29 2 39 17 2 36 18 21 2 39 20 3 1 18 2 36 20 3 2 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 commasym identsym.36 semicolonsym beginsym identsym.39
+becomessym numbersym.1 semicolonsym identsym.36 becomessym numbersym.2
+periodsym
+
+Error number 17, Semicolon or end expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 0;
+	while foo < 10
+	foo := foo + 1;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 0 18 25 2 39 11 3 10 2 39 20 2 39 4 3 1 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.0
+semicolonsym whilesym identsym.39 lessym numbersym.10 identsym.39 becomessym
+identsym.39 plussym numbersym.1 semicolonsym endsym periodsym
+
+Error number 18, do expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Skipping number 19 because I don't know what it's for (I think it is related to
+number 8?).
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 0;
+	while foo 10
+	foo := foo + 1;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 0 18 25 2 39 3 10 2 39 20 2 39 4 3 1 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.0
+semicolonsym whilesym identsym.39 numbersym.10 identsym.39 becomessym
+identsym.39 plussym numbersym.1 semicolonsym endsym periodsym
+
+Error number 20, Relational operator expected.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+procedure foo;
+begin
+	out foo;
+end.
+
+Token File (Raw)
+================
+30 2 foo 18 21 31 2 foo 18 22 19
+
+Token File (Symbolic)
+=====================
+procsym identsym.foo semicolonsym beginsym outsym identsym.foo semicolonsym
+endsym periodsym
+
+Error number 21, Expression must not contain a procedure identifier.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 1 + (2 + 3;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 1 4 15 3 2 4 3 3 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.1
+plussym lparentsym numbersym.2 plussym numbersym.3 semicolonsym endsym
+periodsym
+
+Error number 22, Right parenthesis missing.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo;
+begin
+	foo := 1 + int;
+end.
+
+Token File (Raw)
+================
+29 2 39 18 21 2 39 20 3 1 4 29 18 22 19
+
+Token File (Symbolic)
+=====================
+intsym identsym.39 semicolonsym beginsym identsym.39 becomessym numbersym.1
+plussym intsym semicolonsym endsym periodsym
+
+Error number 23, The preceding factor cannot begin with this symbol.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Skipping error number 24 because I don't know how to implement it.
+
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
+Input File
+==========
+int foo, bar, baz, qux;
+begin
+	foo := foo + 1;
+	/* copy the above line 250 times */
+end.
+
+(Omitting enormous token file outputs.)
+
+Error number 25, This number is too large.
